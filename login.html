@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/stye.css">
+    <title>Login Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Login </h1>
+        <form id="login-form">
+            <label for="email">Email: </label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">login</button>
+        </form>
+        <div id="message"></div>
+    </div>
+
+    <script>
+
+
+        document.getElementById("login-form")
+            .addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const response = await fetch("http://localhost:3006/api/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: document.getElementById("email").value,
+                        password: document.getElementById("password").value
+                    })
+                });
+
+                if (response.ok) {
+                    const user = await response.json();
+                    console.log("Login successful:", user);
+
+                    Swal.fire({
+                        title: "Login successful",
+                        text: "You will be redirect to main page in a while !!",
+                        icon: "success"
+                    });
+
+                    setTimeout(function() {
+                        window.location.replace("main.html");
+                    }, 500)
+
+                } else {
+                    const error = await response.json();
+                    console.error("Login failed:", error);
+
+                    Swal.fire({
+                        title: "Login Failed, Password doesnot match",
+                        text: "Login Failed, Please retry",
+                        icon: "error"
+                    });
+                }
+
+            });
+    </script>
+
+</body>
