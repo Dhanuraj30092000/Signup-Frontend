@@ -69,7 +69,7 @@
             <div><i class="uil uil-bars sidebar-toggle"></i>
                 <img src="Images/logo.png" alt="logo" style="width: 250px; height: 44.18;">
                 <span id = "user_name">
-                      
+                    
                 </span>
             </div>
             <div class="search-box">
@@ -156,7 +156,9 @@
             return "";
 
         }
-        document.getElementById ("user_name").innerText=getCookie("user")
+        const userInCookie = getCookie("user") // This will be in string
+        const userObject = JSON.parse(userInCookie) 
+        document.getElementById ("user_name").innerText= userObject.firstName
     </script>
 </body>
 

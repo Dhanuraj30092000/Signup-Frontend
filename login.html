@@ -83,7 +83,7 @@
                 if (responseData.ok) { 
                     const user = await responseData.json();
                     console.log("user=",user)
-                document.cookie = 'user=' + JSON.stringify(user);
+                document.cookie = 'user=' + JSON.stringify(user); // Converts Js object to string & sets it to cookie 
                 }
                // return user
             
