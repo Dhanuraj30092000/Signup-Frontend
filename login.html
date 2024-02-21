@@ -46,9 +46,9 @@
                 });
 
                 if (response.ok) {
-                    const user = await response.json();
-                    console.log("Login successful:", user);
-
+                    const responseData = await response.json();
+                    console.log("Login successful:", responseData);
+                    await fetchUser(responseData.token)
                     Swal.fire({
                         title: "Login successful",
                         text: "You will be redirect to main page in a while !!",
@@ -57,7 +57,7 @@
 
                     setTimeout(function() {
                         window.location.replace("main.html");
-                    }, 500)
+                    }, 70000000)
 
                 } else {
                     const error = await response.json();
@@ -71,6 +71,24 @@
                 }
 
             });
+           async function fetchUser (token)
+            {
+                const responseData = await fetch(  "http://localhost:3006/api/me", { 
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                         "Authorization" : token
+                    }
+                });
+                if (responseData.ok) { 
+                    const user = await responseData.json();
+                    console.log("user=",user)
+                document.cookie = 'user=' + JSON.stringify(user);
+                }
+               // return user
+            
+            }
+              
     </script>
 
 </body>

@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
 
     <link rel="stylesheet" href="main.css">
-        
- 
+
+
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 
-    <title>Admin Dashboard Panel</title> 
+    <title>Admin Dashboard Panel</title>
 </head>
+
 <body>
     <nav>
         <div class="logo-name">
@@ -25,54 +27,57 @@
         <div class="menu-items">
             <ul class="nav-links">
                 <li><a href="#">
-                    <i class="uil uil-estate"></i>
-                    <span class="link-name">Connectors </span>
-                </a></li>
+                        <i class="uil uil-estate"></i>
+                        <span class="link-name">Connectors </span>
+                    </a></li>
                 <li><a href="#">
-                    <i class="uil uil-files-landscapes"></i>
-                    <span class="link-name">Transformation</span>
-                </a></li>
+                        <i class="uil uil-files-landscapes"></i>
+                        <span class="link-name">Transformation</span>
+                    </a></li>
                 <li><a href="#">
-                    <i class="uil uil-chart"></i>
-                    <span class="link-name">Destinations</span>
-                </a></li>
+                        <i class="uil uil-chart"></i>
+                        <span class="link-name">Destinations</span>
+                    </a></li>
                 <li><a href="#">
-                    <i class="uil uil-thumbs-up"></i>
-                    <span class="link-name">Analytics</span>
-                </a></li>
-                
-            
-            <ul class="logout-mode">
-                <li><a href="#">
-                    <i class="uil uil-signout"></i>
-                    <span class="link-name">Logout</span>
-                </a></li>
+                        <i class="uil uil-thumbs-up"></i>
+                        <span class="link-name">Analytics</span>
+                    </a></li>
 
-               <!-- <li class="mode">
+
+                <ul class="logout-mode">
+                    <li><a href="#">
+                            <i class="uil uil-signout"></i>
+                            <span class="link-name">Logout</span>
+                        </a></li>
+
+                    <!-- <li class="mode">
                     <a href="#">
                         <i class="uil uil-moon"></i>
                     <span class="link-name">Dark Mode</span>-->
-                </a>
+                    </a>
 
-              <!--<div class="mode-toggle">
+                    <!--<div class="mode-toggle">
                   <span class="switch"></span>
                 </div>-->
-            </li>
-            </ul>
+                    </li>
+                </ul>
         </div>
     </nav>
 
     <section class="dashboard">
         <div class="top">
             <div><i class="uil uil-bars sidebar-toggle"></i>
-            <img src="Images/logo.png" alt="logo" style="width: 250px; height: 44.18;">
+                <img src="Images/logo.png" alt="logo" style="width: 250px; height: 44.18;">
+                <span id = "user_name">
+                      
+                </span>
             </div>
-               <div class="search-box">
+            <div class="search-box">
                 <i class="uil uil-search"></i>
                 <input type="text" placeholder="Search here...">
             </div>
-            
-       
+
+
         </div>
 
         <div class="dash-content">
@@ -86,18 +91,18 @@
                     <div class="box box1">
                         <i class='bx bx-sync icon'></i>
                         <span class="text">Connect source</span>
-                        
-                        
+
+
                     </div>
                     <div class="box box2">
                         <i class='bx bxs-map icon'></i>
                         <span class="text">Connect destination</span>
-                      
+
                     </div>
                     <div class="box box3">
                         <i class='bx bx-transfer-alt icon'></i>
                         <span class="text">Complete initial sync</span>
-                      
+
                     </div>
                 </div>
             </div>
@@ -111,19 +116,19 @@
                 <div class="activity-data">
                     <div class="Connector">
                         <span class="Connector Name">Connector Name</span>
-                        
-                    </div> 
+
+                    </div>
                     <div class="Time">
                         <span class="Time">Email</span>
 
                     </div>
                     <div class="data joined">
                         <span class="Data Transferred">Data Transferred</span>
-                    
+
                     </div>
                     <div class="data type">
                         <span class="Data Type">Type</span>
-                   
+
                     </div>
                     <div class="data status">
                         <span class="Data Status">Data Status</span>
@@ -134,6 +139,25 @@
         </div>
     </section>
 
-    <script src="script.js"></script>
+    <script>
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+
+        }
+        document.getElementById ("user_name").innerText=getCookie("user")
+    </script>
 </body>
+
 </html>
