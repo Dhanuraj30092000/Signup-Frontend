@@ -21,32 +21,89 @@
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
-            
+
             <label for="host">host:</label>
             <input type="text" id="host" name="host" required>
 
             <label for="port">port:</label>
             <input type="text" id="port" name="port" required>
 
-            
+
 
 
 
             <button type="submit">Save</button>
-        <br> </br>
-            <button type="submit">Test connection </button>
+            <br></br>
         </form>
+        <button id="test_connection_button" type="submit">Test connection </button>
+
         <div id="message"></div>
     </div>
 
     <script>
+
+        document.getElementById("test_connection_button")
+            .addEventListener("click", async (e) => {
+                e.preventDefault();
+                const userInCookie = getCookie("user") // This will be in string
+                const userObject = JSON.parse(userInCookie)
+                const token = userObject.token
+
+                const response = await fetch("http://localhost:3006/resources/etl/testConnection", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": token
+                    },
+                    body: JSON.stringify({
+                        userName: document.getElementById("userName").value,
+                        password: document.getElementById("password").value,
+                        port: document.getElementById("port").value,
+                        host: document.getElementById("host").value
+                    })
+                });
+
+                if (response.ok) {
+                    const responseData = await response.json();
+                    const authResult = responseData.authenticationStatus
+                    if(authResult == true){
+                        Swal.fire({
+                            title: "connection Success",
+                            text: "connection sucessfull, You can save the connection now",
+                            icon: "success"
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "connection Failed",
+                            text: "connection Failed, Please re check the data supplied",
+                            icon: "error"
+                        });
+                    }
+
+                   
+                } else {
+                    const error = await response.json();
+                    console.error("Connection failed:", error);
+
+                    Swal.fire({
+                        title: "Could not test connection",
+                        text: "Connection test failed, Please retry",
+                        icon: "error"
+                    });
+                }
+
+
+
+            });
+
+
 
 
         document.getElementById("connection-form")
             .addEventListener("submit", async (e) => {
                 e.preventDefault();
                 const userInCookie = getCookie("user") // This will be in string
-                const userObject = JSON.parse(userInCookie) 
+                const userObject = JSON.parse(userInCookie)
                 const token = userObject.token
                 const response = await fetch("http://localhost:3006/resources/etl/credentials", {
                     method: "POST",
@@ -64,13 +121,13 @@
 
                 if (response.ok) {
                     const responseData = await response.json();
-                
+
                     Swal.fire({
                         title: "connection Saved, Password match",
                         text: "connection sucessfull",
                         icon: "success"
                     });
-                
+
 
                 } else {
                     const error = await response.json();
@@ -84,8 +141,8 @@
                 }
 
             });
-          
-            function getCookie(cname) {
+
+        function getCookie(cname) {
             var name = cname + "=";
             var decodedCookie = decodeURIComponent(document.cookie);
             var ca = decodedCookie.split(';');
@@ -101,8 +158,8 @@
             return "";
 
         }
-       
-       
+
+
     </script>
 
 </body>
