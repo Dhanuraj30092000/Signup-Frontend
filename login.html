@@ -57,7 +57,7 @@
 
                     setTimeout(function() {
                         window.location.replace("main.html");
-                    }, 70000000)
+                    }, 500)
 
                 } else {
                     const error = await response.json();
@@ -82,6 +82,7 @@
                 });
                 if (responseData.ok) { 
                     const user = await responseData.json();
+                    user.token = token 
                     console.log("user=",user)
                 document.cookie = 'user=' + JSON.stringify(user); // Converts Js object to string & sets it to cookie 
                 }

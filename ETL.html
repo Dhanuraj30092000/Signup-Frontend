@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/stye.css">
+    <title>DESTINATION LOGIN</title>
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>DESTINATION LOGIN </h1>
+        <form id="connection-form">
+            <label for="userName">USERNAME: </label>
+            <input type="text" id="userName" name="userName" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <label for="host">host:</label>
+            <input type="text" id="host" name="host" required>
+
+            <label for="port">port:</label>
+            <input type="text" id="port" name="port" required>
+
+            
+
+
+
+            <button type="submit">Save</button>
+        <br> </br>
+            <button type="submit">Test connection </button>
+        </form>
+        <div id="message"></div>
+    </div>
+
+    <script>
+
+
+        document.getElementById("connection-form")
+            .addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const userInCookie = getCookie("user") // This will be in string
+                const userObject = JSON.parse(userInCookie) 
+                const token = userObject.token
+                const response = await fetch("http://localhost:3006/resources/etl/credentials", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": token
+                    },
+                    body: JSON.stringify({
+                        userName: document.getElementById("userName").value,
+                        password: document.getElementById("password").value,
+                        port: document.getElementById("port").value,
+                        host: document.getElementById("host").value
+                    })
+                });
+
+                if (response.ok) {
+                    const responseData = await response.json();
+                
+                    Swal.fire({
+                        title: "connection Saved, Password match",
+                        text: "connection sucessfull",
+                        icon: "success"
+                    });
+                
+
+                } else {
+                    const error = await response.json();
+                    console.error("Login failed:", error);
+
+                    Swal.fire({
+                        title: "connection Failed, Password doesnot match",
+                        text: "connection Failed, Please retry",
+                        icon: "error"
+                    });
+                }
+
+            });
+          
+            function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+
+        }
+       
+       
+    </script>
+
+</body>
